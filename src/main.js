@@ -1,17 +1,15 @@
 // У файлі main.js напиши всю логіку роботи додатка.
-// Описаний у документації
+
 import iziToast from 'izitoast';
-// Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
-// Описаний у документації
+
 import SimpleLightbox from 'simplelightbox';
-// Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const ref = {
   form: document.querySelector('.js-form'),
   list: document.querySelector('.js-list'),
-  span: document.querySelector('.text'),
+  span: document.querySelector('.loader'),
 };
 const API_KEY = '43226566-fed9ea78cdf96918d4e965adc';
 const URL = 'https://pixabay.com/api/';
@@ -20,24 +18,29 @@ ref.form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(event) {
   event.preventDefault();
+  ref.span.classList.remove('is-active');
+
   const { text } = event.currentTarget.elements;
 
   foo(text.value)
     .then(data => {
-      // Data handling
       console.log('data', data.hits);
+      console.log(data.hits.length);
+      if (data.hits.length === 0) {
+        iziToast.warning({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
+      }
 
-      ref.list.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+      ref.list.innerHTML = createMarkup(data.hits);
+      ref.span.classList.add('is-active');
+      lightbox.refresh();
       ref.form.reset();
     })
     .catch(error => {
-      // Error handling
-      console.log(error);
-      iziToast.warning({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-      });
-      //
+      alert(error);
     });
 }
 
@@ -68,38 +71,34 @@ function createMarkup(arr) {
         views,
         comments,
         downloads,
-      }) =>
-        `<a class="item-card" href="${largeImageURL}">
-          <img src="${webformatURL}" alt="${tags}"/>
-            <ul class="item-stat">
-              <li class="item>
-                <h2 class="title">likes</h2>
-                <p class="stat">${likes}</p>
-              </li>
-              <li class="item>
-                <h2 class="title">Views</h2>
-                <p class="stat">${views}</p>
-              </li>
-              <li class="item>
-                <h2 class="title">Comments</h2>
-                <p class="stat">${comments}</p>
-              </li>
-              <li class="item>
-                <h2 class="title">Downloads</h2>
-                <p class="stat">${downloads}</p>
-              </li>
-            </ul>
-        </a>`
+      }) => `<li class="card">
+        <a href="${largeImageURL}">
+          <img src="${webformatURL}" alt="${tags}" width="360" />
+        </a>
+        <ul class="list-stat">
+          <li class="item">
+            <h2 class="title">likes</h2>
+            <p class="stat">${likes}</p>
+          </li>
+          <li class="item">
+            <h2 class="title">Views</h2>
+            <p class="stat">${views}</p>
+          </li>
+          <li class="item">
+            <h2 class="title">Comments</h2>
+            <p class="stat">${comments}</p>
+          </li>
+          <li class="item">
+            <h2 class="title">Downloads</h2>
+            <p class="stat">${downloads}</p>
+          </li>
+        </ul>
+      </li>`
     )
     .join('');
-  console.log(arr);
 }
-const lightbox = new SimpleLightbox('.list a', {
+const lightbox = new SimpleLightbox('.card a', {
   captionsData: 'alt',
   captionDelay: 250,
   captionPosition: 'outside',
 });
-// lightbox.on('shown.simplelightbox', () => {
-//   const overlay = document.querySelector('.sl-overlay');
-//   overlay.style.backgroundColor = 'rgba(46, 47, 66, 0.8)';
-// });
