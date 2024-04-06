@@ -22,8 +22,6 @@ function onSubmitForm(event) {
 
   getDate(text.value)
     .then(data => {
-      console.log('data', data.hits);
-      console.log(data.hits.length);
       if (data.hits.length === 0) {
         iziToast.warning({
           color: '#d5ccda',
