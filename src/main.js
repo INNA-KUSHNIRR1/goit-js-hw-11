@@ -9,15 +9,14 @@ import { createMarkup } from './js/render-functions';
 
 const ref = {
   form: document.querySelector('.js-form'),
-  list: document.querySelector('.js-list'),
-  span: document.querySelector('.loader'),
+  gallery: document.querySelector('.js-gallery'),
 };
 
 ref.form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(event) {
   event.preventDefault();
-  ref.span.classList.remove('is-active');
+  ref.gallery.innerHTML = `<span class="loader"></span>`;
 
   const { text } = event.currentTarget.elements;
 
@@ -27,15 +26,14 @@ function onSubmitForm(event) {
       console.log(data.hits.length);
       if (data.hits.length === 0) {
         iziToast.warning({
-          color: 'green',
+          color: '#d5ccda',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
           position: 'center',
         });
       }
 
-      ref.list.innerHTML = createMarkup(data.hits);
-      ref.span.classList.add('is-active');
+      ref.gallery.innerHTML = createMarkup(data.hits);
       lightbox.refresh();
       ref.form.reset();
     })
