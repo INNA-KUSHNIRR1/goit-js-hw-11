@@ -11,7 +11,7 @@ export function createMarkup(arr) {
         downloads,
       }) => `<li class="card">
         <a href="${largeImageURL}">
-          <img src="${webformatURL}" alt="${tags}" width="360" />
+          <img src="${webformatURL}" alt="${tags}" width="360" height="152"/>
         </a>
         <ul class="list-stat">
           <li class="item">
