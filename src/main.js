@@ -4,7 +4,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import getDate from './js/pixabay-api';
+import getImagesFromApi from './js/pixabay-api';
 import { createMarkup } from './js/render-functions';
 
 const ref = {
@@ -20,14 +20,14 @@ function onSubmitForm(event) {
 
   const { text } = event.currentTarget.elements;
 
-  getDate(text.value)
+  getImagesFromApi(text.value.trim())
     .then(data => {
       if (data.hits.length === 0) {
         iziToast.warning({
-          color: '#d5ccda',
+          color: '#fc6e51',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
-          position: 'center',
+          position: 'topCenter',
         });
       }
 

@@ -1,7 +1,7 @@
 const API_KEY = '43226566-fed9ea78cdf96918d4e965adc';
 const URL = 'https://pixabay.com/api/';
 
-export default function getDate(text = '') {
+export default function getImagesFromApi(text = '') {
   const parameters = new URLSearchParams({
     key: API_KEY,
     q: text,

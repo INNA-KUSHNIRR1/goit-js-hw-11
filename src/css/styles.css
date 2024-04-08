@@ -25,7 +25,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 8px;
-  padding-top: 36px;
+  padding-top: 100px;
   padding-bottom: 32px;
   justify-content: center;
 }
