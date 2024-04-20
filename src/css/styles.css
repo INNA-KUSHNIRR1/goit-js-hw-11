@@ -9,7 +9,6 @@
 body {
   box-sizing: border-box;
   margin: 0;
-  width: 1440px;
   margin-right: auto;
   margin-left: auto;
   font-family: 'Montserrat', sans-serif;
@@ -70,6 +69,7 @@ body {
   justify-content: center;
   height: auto;
 }
+
 .card {
   width: 360px;
   display: flex;
@@ -78,6 +78,7 @@ body {
   justify-content: space-between;
   transition: transform 250ms ease-in-out;
 }
+
 .card:hover {
   transform: scale(1.04);
 }
